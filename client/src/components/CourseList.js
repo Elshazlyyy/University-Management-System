@@ -91,12 +91,6 @@ class CourseList extends Component {
         const { courses } = this.props.course;
         return (
             <Container>
-
-
-
-
-
-
                 <ListGroup>
                     <ListGroupItem><Button color="primary" onClick={this.toggle} >Faculty of Media Engineering and Technology (MET)</Button>
                         <Collapse isOpen={this.state.isOpen}>
@@ -202,7 +196,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 1 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -211,13 +204,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -236,7 +231,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 2 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -245,13 +239,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -270,7 +266,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 3 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -279,13 +274,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -304,7 +301,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 4 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -313,13 +309,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -338,7 +336,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 5 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -347,13 +344,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -372,7 +371,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 6 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -381,13 +379,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -406,7 +406,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 7 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -415,13 +414,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -440,7 +441,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 8 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -449,13 +449,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -474,7 +476,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 9 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -483,13 +484,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -508,7 +511,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 10 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -517,13 +519,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -542,7 +546,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Computer Science and Engineering" && semester === 11 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -551,13 +554,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -669,7 +674,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 1 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -678,13 +682,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -703,7 +709,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 2 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -712,13 +717,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -737,7 +744,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 3 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -746,13 +752,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -771,7 +779,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 4 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -780,13 +787,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -805,7 +814,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 5 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -814,13 +822,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -839,7 +849,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 6 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -848,13 +857,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -873,7 +884,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 7 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -882,13 +892,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -907,7 +919,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 8 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -916,13 +927,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -941,7 +954,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 9 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -950,13 +962,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -975,7 +989,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 10 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -984,13 +997,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1009,7 +1024,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Digital Media Engineering and Technology" && semester === 11 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1018,13 +1032,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1167,7 +1183,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Pharmacy & Biotechnology" && semester === 2 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1176,13 +1191,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1201,7 +1218,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Pharmacy & Biotechnology" && semester === 3 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1210,13 +1226,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1235,7 +1253,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Pharmacy & Biotechnology" && semester === 4 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1244,13 +1261,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1269,7 +1288,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Pharmacy & Biotechnology" && semester === 5 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1278,13 +1296,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1303,7 +1323,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Pharmacy & Biotechnology" && semester === 6 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1312,13 +1331,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1337,7 +1358,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Pharmacy & Biotechnology" && semester === 7 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1346,13 +1366,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1371,7 +1393,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Pharmacy & Biotechnology" && semester === 8 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1380,13 +1401,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1405,7 +1428,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Pharmacy & Biotechnology" && semester === 9 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1414,13 +1436,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1439,7 +1463,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Pharmacy & Biotechnology" && semester === 10 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1448,13 +1471,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1550,7 +1575,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Biotechnology" && semester === 1 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1559,13 +1583,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1584,7 +1610,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Biotechnology" && semester === 2 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1593,13 +1618,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1618,7 +1645,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Biotechnology" && semester === 3 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1627,13 +1653,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1652,7 +1680,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Biotechnology" && semester === 4 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1661,13 +1688,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1686,7 +1715,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Biotechnology" && semester === 5 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1695,13 +1723,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1720,7 +1750,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Biotechnology" && semester === 6 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1729,13 +1758,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1754,7 +1785,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Biotechnology" && semester === 7 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1763,13 +1793,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1788,7 +1820,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Biotechnology" && semester === 8 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1797,13 +1828,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1822,7 +1855,6 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Biotechnology" && semester === 9 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
                                                                                 <CardHeader>  {name}</CardHeader>
                                                                                 <CardBody>
@@ -1831,13 +1863,15 @@ class CourseList extends Component {
                                                                                 <CardFooter>  <Button
                                                                                     className="remove-btn"
                                                                                     color="danger"
-                                                                                    size="sm"
                                                                                     onClick={this.onDeleteClick.bind(this, _id)}
                                                                                 >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                    Delete Course
+                                                                                </Button>
+                                                                                    <Button color="primary" >
+                                                                                        Edit Course
+                                                                                    </Button>
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1851,14 +1885,6 @@ class CourseList extends Component {
                             </ListGroup>
                         </Collapse></ListGroupItem>
                 </ListGroup>
-
-
-
-
-
-
-
-
             </Container >
         );
     }
