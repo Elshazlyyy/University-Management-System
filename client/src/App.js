@@ -1,6 +1,6 @@
 import AppNavbar from './components/AppNavbar';
-import ShoppingList from './components/ShoppingList';
-import ItemModal from './components/ItemModal';
+import CourseList from './components/CourseList';
+import CourseModal from './components/CourseModal';
 import { Container } from 'reactstrap';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -13,8 +13,8 @@ function App() {
       <div className="App">
         <AppNavbar />
         <Container>
-          <ItemModal />
-          <ShoppingList />
+          <CourseModal />
+          <CourseList />
         </Container>
       </div>
     </Provider>

@@ -18,7 +18,11 @@ router.get('/', (req, res) => {
 // @access  Public
 router.post('/', (req, res) => {
     const newCourse = new Course({
-        name: req.body.name
+        name: req.body.name,
+        description: req.body.description,
+        semester: req.body.semester,
+        major: req.body.major,
+        faculty: req.body.major,
     });
 
     newCourse.save().then(course => res.json(course));
