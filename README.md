@@ -31,13 +31,8 @@ There is a Heroku post build script so that you do not have to compile your Reac
 
 ### Author
 
-Brad Traversy
-[Traversy Media](http://www.traversymedia.com)
+Ahmed Elshazly
 
 ### Version
 
 1.0.0
-
-### License
-
-This project is licensed under the MIT License
