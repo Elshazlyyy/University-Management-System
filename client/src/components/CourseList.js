@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import {
     Container, ListGroup, ListGroupItem, Button, Card, CardHeader, CardFooter, CardBody,
-    CardText, Collapse, Nav, NavItem, NavLink, TabContent, TabPane
+    CardText, Collapse, Nav, NavItem, NavLink, TabContent, TabPane, Label, FormGroup, Input
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getCourses, deleteCourse } from '../actions/courseActions';
+import { getCourses, deleteCourse, editCourse } from '../actions/courseActions';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 class CourseList extends Component {
     state = {
+        description: this.props.defaultInputValue,
         isOpen: false,
         isOpen2: false,
         isOpen3: false,
@@ -18,10 +19,18 @@ class CourseList extends Component {
         isOpen5: false,
         isOpen6: false,
         toggle: false,
+        isEdit: false,
+        editid: ''
     };
 
     componentDidMount() {
         this.props.getCourses();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.id !== prevProps.id) {
+            this.props.getCourses();
+        }
     }
 
     onDeleteClick = id => {
@@ -85,6 +94,28 @@ class CourseList extends Component {
             this.setState({
                 activeTab4: tab
             });
+    };
+
+    EditCourse = (id) => {
+        this.setState({
+            isEdit: !this.state.isEdit,
+            editid: id
+        });
+    };
+
+    onChange = e => {
+        this.setState({ description: e.target.value });
+    };
+
+    DoneEditCourse = (id) => {
+        this.setState({
+            isEdit: !this.state.isEdit
+        });
+        const CourseEdit = {
+            description: this.state.description
+        };
+        this.props.editCourse(CourseEdit, id);
+        window.location.reload(false);
     };
 
     render() {
@@ -197,20 +228,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 1 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -232,20 +291,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 2 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -267,20 +354,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 3 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -302,20 +417,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 4 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -337,20 +480,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 5 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -372,20 +543,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 6 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -407,20 +606,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 7 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -442,20 +669,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 8 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -477,20 +732,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 9 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -512,20 +795,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 10 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -547,20 +858,48 @@ class CourseList extends Component {
                                                                     {major === "Computer Science and Engineering" && semester === 11 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -665,7 +1004,7 @@ class CourseList extends Component {
                                                 </NavLink>
                                             </NavItem>
                                         </Nav>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="1">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -686,7 +1025,7 @@ class CourseList extends Component {
                                                                                 >
                                                                                     Delete Course
                                                                                 </Button>
-                                                                                    <Button color="primary" >
+                                                                                    <Button color="primary" onClick={this.EditCourse}>
                                                                                         Edit Course
                                                                                     </Button>
                                                                                 </CardFooter>
@@ -700,7 +1039,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="2">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -710,20 +1049,48 @@ class CourseList extends Component {
                                                                     {major === "Digital Media Engineering and Technology" && semester === 2 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -735,7 +1102,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="3">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -745,20 +1112,48 @@ class CourseList extends Component {
                                                                     {major === "Digital Media Engineering and Technology" && semester === 3 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -770,7 +1165,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="4">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -780,20 +1175,48 @@ class CourseList extends Component {
                                                                     {major === "Digital Media Engineering and Technology" && semester === 4 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -805,7 +1228,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="5">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -815,20 +1238,48 @@ class CourseList extends Component {
                                                                     {major === "Digital Media Engineering and Technology" && semester === 5 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -840,7 +1291,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="6">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -850,20 +1301,48 @@ class CourseList extends Component {
                                                                     {major === "Digital Media Engineering and Technology" && semester === 6 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -875,7 +1354,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="7">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -885,20 +1364,48 @@ class CourseList extends Component {
                                                                     {major === "Digital Media Engineering and Technology" && semester === 7 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -910,7 +1417,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="8">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -920,20 +1427,48 @@ class CourseList extends Component {
                                                                     {major === "Digital Media Engineering and Technology" && semester === 8 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -945,7 +1480,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="9">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -955,20 +1490,48 @@ class CourseList extends Component {
                                                                     {major === "Digital Media Engineering and Technology" && semester === 9 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -980,7 +1543,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="10">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -990,20 +1553,48 @@ class CourseList extends Component {
                                                                     {major === "Digital Media Engineering and Technology" && semester === 10 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1015,7 +1606,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab2={this.state.activeTab2}>
+                                        <TabContent activeTab={this.state.activeTab2}>
                                             <TabPane tabId="11">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1025,20 +1616,48 @@ class CourseList extends Component {
                                                                     {major === "Digital Media Engineering and Technology" && semester === 11 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1140,7 +1759,7 @@ class CourseList extends Component {
                                                 </NavLink>
                                             </NavItem>
                                         </Nav>
-                                        <TabContent activeTab3={this.state.activeTab3}>
+                                        <TabContent activeTab={this.state.activeTab3}>
                                             <TabPane tabId="1">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1149,22 +1768,51 @@ class CourseList extends Component {
                                                                 <Container>
                                                                     {major === "Pharmacy & Biotechnology" && semester === 1 ? (
                                                                         <ListGroupItem>
-
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    size="sm"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    &times;
-                                                                                </Button></CardFooter>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                </CardFooter>
                                                                             </Card>
-
                                                                         </ListGroupItem>
                                                                     ) : null}
                                                                 </Container>
@@ -1174,7 +1822,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab3={this.state.activeTab3}>
+                                        <TabContent activeTab={this.state.activeTab3}>
                                             <TabPane tabId="2">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1184,20 +1832,48 @@ class CourseList extends Component {
                                                                     {major === "Pharmacy & Biotechnology" && semester === 2 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1209,7 +1885,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab3={this.state.activeTab3}>
+                                        <TabContent activeTab={this.state.activeTab3}>
                                             <TabPane tabId="3">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1219,20 +1895,48 @@ class CourseList extends Component {
                                                                     {major === "Pharmacy & Biotechnology" && semester === 3 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1244,7 +1948,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab3={this.state.activeTab3}>
+                                        <TabContent activeTab={this.state.activeTab3}>
                                             <TabPane tabId="4">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1254,20 +1958,48 @@ class CourseList extends Component {
                                                                     {major === "Pharmacy & Biotechnology" && semester === 4 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1279,7 +2011,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab3={this.state.activeTab3}>
+                                        <TabContent activeTab={this.state.activeTab3}>
                                             <TabPane tabId="5">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1289,20 +2021,48 @@ class CourseList extends Component {
                                                                     {major === "Pharmacy & Biotechnology" && semester === 5 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1314,7 +2074,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab3={this.state.activeTab3}>
+                                        <TabContent activeTab={this.state.activeTab3}>
                                             <TabPane tabId="6">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1324,20 +2084,48 @@ class CourseList extends Component {
                                                                     {major === "Pharmacy & Biotechnology" && semester === 6 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1349,7 +2137,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab3={this.state.activeTab3}>
+                                        <TabContent activeTab={this.state.activeTab3}>
                                             <TabPane tabId="7">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1359,20 +2147,48 @@ class CourseList extends Component {
                                                                     {major === "Pharmacy & Biotechnology" && semester === 7 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1384,7 +2200,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab3={this.state.activeTab3}>
+                                        <TabContent activeTab={this.state.activeTab3}>
                                             <TabPane tabId="8">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1394,20 +2210,48 @@ class CourseList extends Component {
                                                                     {major === "Pharmacy & Biotechnology" && semester === 8 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1419,7 +2263,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab3={this.state.activeTab3}>
+                                        <TabContent activeTab={this.state.activeTab3}>
                                             <TabPane tabId="9">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1429,20 +2273,48 @@ class CourseList extends Component {
                                                                     {major === "Pharmacy & Biotechnology" && semester === 9 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1454,7 +2326,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab3={this.state.activeTab3}>
+                                        <TabContent activeTab={this.state.activeTab3}>
                                             <TabPane tabId="10">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1464,20 +2336,48 @@ class CourseList extends Component {
                                                                     {major === "Pharmacy & Biotechnology" && semester === 10 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1566,7 +2466,7 @@ class CourseList extends Component {
                                                 </NavLink>
                                             </NavItem>
                                         </Nav>
-                                        <TabContent activeTab4={this.state.activeTab4}>
+                                        <TabContent activeTab={this.state.activeTab4}>
                                             <TabPane tabId="1">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1576,20 +2476,48 @@ class CourseList extends Component {
                                                                     {major === "Biotechnology" && semester === 1 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1601,7 +2529,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab4={this.state.activeTab4}>
+                                        <TabContent activeTab={this.state.activeTab4}>
                                             <TabPane tabId="2">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1611,20 +2539,48 @@ class CourseList extends Component {
                                                                     {major === "Biotechnology" && semester === 2 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1636,7 +2592,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab4={this.state.activeTab4}>
+                                        <TabContent activeTab={this.state.activeTab4}>
                                             <TabPane tabId="3">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1646,20 +2602,48 @@ class CourseList extends Component {
                                                                     {major === "Biotechnology" && semester === 3 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1671,7 +2655,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab4={this.state.activeTab4}>
+                                        <TabContent activeTab={this.state.activeTab4}>
                                             <TabPane tabId="4">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1681,20 +2665,48 @@ class CourseList extends Component {
                                                                     {major === "Biotechnology" && semester === 4 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1706,7 +2718,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab4={this.state.activeTab4}>
+                                        <TabContent activeTab={this.state.activeTab4}>
                                             <TabPane tabId="5">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1716,20 +2728,48 @@ class CourseList extends Component {
                                                                     {major === "Biotechnology" && semester === 5 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1741,7 +2781,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab4={this.state.activeTab4}>
+                                        <TabContent activeTab={this.state.activeTab4}>
                                             <TabPane tabId="6">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1751,20 +2791,48 @@ class CourseList extends Component {
                                                                     {major === "Biotechnology" && semester === 6 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1776,7 +2844,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab4={this.state.activeTab4}>
+                                        <TabContent activeTab={this.state.activeTab4}>
                                             <TabPane tabId="7">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1786,20 +2854,48 @@ class CourseList extends Component {
                                                                     {major === "Biotechnology" && semester === 7 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1811,7 +2907,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab4={this.state.activeTab4}>
+                                        <TabContent activeTab={this.state.activeTab4}>
                                             <TabPane tabId="8">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1821,20 +2917,48 @@ class CourseList extends Component {
                                                                     {major === "Biotechnology" && semester === 8 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1846,7 +2970,7 @@ class CourseList extends Component {
                                                 </ListGroup>
                                             </TabPane>
                                         </TabContent>
-                                        <TabContent activeTab4={this.state.activeTab4}>
+                                        <TabContent activeTab={this.state.activeTab4}>
                                             <TabPane tabId="9">
                                                 <ListGroup>
                                                     <TransitionGroup className="course-list">
@@ -1856,20 +2980,48 @@ class CourseList extends Component {
                                                                     {major === "Biotechnology" && semester === 9 ? (
                                                                         <ListGroupItem>
                                                                             <Card>
-                                                                                <CardHeader>  {name}</CardHeader>
+                                                                                <CardHeader>{name}</CardHeader>
                                                                                 <CardBody>
-                                                                                    <CardText>{description}</CardText>
+                                                                                    {(!this.state.isEdit) ? <CardText>{description}</CardText> :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <FormGroup>
+                                                                                                <Label for="description">Description</Label>
+                                                                                                <Input type="textarea" name="text" id="description" defaultValue={description} onChange={this.onChange} />
+                                                                                            </FormGroup>
+                                                                                            : <CardText>{description}</CardText>
+                                                                                    }
                                                                                 </CardBody>
-                                                                                <CardFooter>  <Button
-                                                                                    className="remove-btn"
-                                                                                    color="danger"
-                                                                                    onClick={this.onDeleteClick.bind(this, _id)}
-                                                                                >
-                                                                                    Delete Course
-                                                                                </Button>
-                                                                                    <Button color="primary" >
-                                                                                        Edit Course
-                                                                                    </Button>
+                                                                                <CardFooter>
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button
+                                                                                            className="remove-btn"
+                                                                                            color="danger"
+                                                                                            onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                        >
+                                                                                            Delete Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            null : <Button
+                                                                                                className="remove-btn"
+                                                                                                color="danger"
+                                                                                                onClick={this.onDeleteClick.bind(this, _id)}
+                                                                                            >
+                                                                                                Delete Course
+                                                                                            </Button>
+                                                                                    }
+                                                                                    {(!this.state.isEdit) ?
+                                                                                        <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                            Edit Course
+                                                                                        </Button>
+                                                                                        :
+                                                                                        (this.state.editid == _id) ?
+                                                                                            <Button color="primary" onClick={this.DoneEditCourse.bind(this, _id)}>
+                                                                                                Done
+                                                                                            </Button> : <Button color="primary" onClick={this.EditCourse.bind(this, _id)}>
+                                                                                                Edit Course
+                                                                                            </Button>
+                                                                                    }
                                                                                 </CardFooter>
                                                                             </Card>
                                                                         </ListGroupItem>
@@ -1892,6 +3044,7 @@ class CourseList extends Component {
 
 CourseList.propTypes = {
     getCourses: PropTypes.func.isRequired,
+    editCourse: PropTypes.func.isRequired,
     course: PropTypes.object.isRequired
 };
 
@@ -1901,5 +3054,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { getCourses, deleteCourse }
+    { getCourses, deleteCourse, editCourse }
 )(CourseList);

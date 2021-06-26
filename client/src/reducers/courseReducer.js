@@ -2,11 +2,13 @@ import {
     GET_COURSES,
     ADD_COURSE,
     DELETE_COURSE,
-    COURSES_LOADING
+    COURSES_LOADING,
+    EDIT_COURSE
 } from '../actions/types';
 
 const initialState = {
     courses: [],
+    course: [],
     loading: false
 };
 
@@ -32,6 +34,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 loading: true
+            };
+        case EDIT_COURSE:
+            return {
+                ...state,
+                course: action.payload,
+                loading: false
             };
         default:
             return state;

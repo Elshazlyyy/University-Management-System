@@ -21,10 +21,8 @@ router.post('/', (req, res) => {
         name: req.body.name,
         description: req.body.description,
         semester: req.body.semester,
-        major: req.body.major,
-        faculty: req.body.major,
+        major: req.body.major
     });
-
     newCourse.save().then(course => res.json(course));
 });
 
@@ -35,6 +33,14 @@ router.delete('/:id', (req, res) => {
     Course.findById(req.params.id)
         .then(course => course.remove().then(() => res.json({ success: true })))
         .catch(err => res.status(404).json({ success: false }));
+});
+
+/* UPDATE Course */
+router.put("/:id", function (req, res, next) {
+    Course.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+        if (err) return next(err);
+        res.json(post);
+    });
 });
 
 module.exports = router;

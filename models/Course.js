@@ -18,10 +18,6 @@ const CourseSchema = new Schema({
     major: {
         type: String,
         required: true
-    },
-    faculty: {
-        type: String,
-        required: true
     }
 });
 

@@ -18,8 +18,7 @@ class CourseModal extends Component {
         name: '',
         description: '',
         semester: null,
-        major: '',
-        faculty: ''
+        major: ''
     };
 
     toggle = () => {
@@ -33,7 +32,7 @@ class CourseModal extends Component {
         this.setState({ [e.target.description]: e.target.description });
         this.setState({ [e.target.semester]: e.target.semester });
         this.setState({ [e.target.major]: e.target.major });
-        this.setState({ [e.target.faculty]: e.target.faculty });
+
     };
 
     onSubmit = e => {
@@ -43,8 +42,7 @@ class CourseModal extends Component {
             name: this.state.name,
             description: this.state.description,
             semester: this.state.semester,
-            major: this.state.major,
-            faculty: this.state.faculty
+            major: this.state.major
         };
 
         // Add Course via addCourse action
@@ -101,14 +99,6 @@ class CourseModal extends Component {
                                     name="description"
                                     id="description"
                                     placeholder="Description"
-                                    onChange={this.onChange}
-                                />
-                                <Label for="faculty">Faculty</Label>
-                                <Input
-                                    type="text"
-                                    name="faculty"
-                                    id="faculty"
-                                    placeholder="Faculty"
                                     onChange={this.onChange}
                                 />
                                 <Button color="dark" style={{ marginTop: '2rem' }} block>
